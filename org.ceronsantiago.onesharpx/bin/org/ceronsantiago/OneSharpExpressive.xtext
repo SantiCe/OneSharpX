@@ -1,0 +1,67 @@
+grammar org.ceronsantiago.OneSharpExpressive with org.eclipse.xtext.common.Terminals
+
+generate oneSharpExpressive "http://www.ceronsantiago.org/OneSharpExpressive"
+
+//TODO: Factorize
+//-------------------------------
+// START SYMBOL - 1#X Program
+//-------------------------------
+Program:
+	functions+=FunctionDeclaration+;
+//-------------------------------
+// TERMINAL FRAGMENTS
+//-------------------------------
+terminal fragment LETTER: //Latin alphabet
+	'A'..'Z'|'a'..'z';
+terminal fragment DIGIT: //A digit
+	'0'..'9';
+
+//-------------------------------
+// TERMINAL RULES
+//-------------------------------
+terminal NUMBER: //An Integer number
+	DIGIT+;
+terminal OS:
+	('1'|'#')+
+;
+terminal ID: //A valid ID for a function, label, parameter, etc. 
+	LETTER+ (LETTER|DIGIT|OS)+
+;
+terminal WS: //Whitespaces;
+ (' '|'\t'|'\r'|'\n')+;
+ 
+//-------------------------------
+// PRIMITIVE FUNCTIONS
+//-------------------------------
+Write:
+	{Write} 'write' word=OS register=NUMBER
+;
+NormalCase:
+	{NormalCase} 'case' register=NUMBER '{' caseOne+=Command* '}{' caseSharp+=Command* '}{' caseEmpty+=Command* '}'
+;
+LoopCase:
+	{LoopCase} 'rcase' register=NUMBER '{' caseOne+=Command* '}{' caseSharp+=Command* '}{' caseEmpty+=Command* '}'
+;
+Goto:
+	{Goto} 'goto' label=ID
+;
+Call:
+	{Call} 'call' function=ID '(' parameters+=(NUMBER|OS) (',' parameters+=(NUMBER|OS))* ')'
+;
+//--------------------------------
+// Commands
+//--------------------------------
+Command:
+	{Command} (label=ID ':')? command=(Write|NormalCase|LoopCase|Goto|Call) 
+;
+
+//--------------------------------
+// Functions
+//--------------------------------
+FunctionHeader:
+	funcName=ID '(' (('int'|'string') ID) ? (',' (('int'|'string') ID))* ')' 
+;
+FunctionDeclaration:
+	funcHeader=FunctionHeader '{' commands+=Command+ '}'
+;
+
