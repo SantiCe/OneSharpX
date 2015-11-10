@@ -1,4 +1,6 @@
-grammar org.ceronsantiago.OneSharpExpressive with org.eclipse.xtext.common.Terminals
+grammar org.ceronsantiago.OneSharpExpressive hidden (WS)
+
+import "http://www.eclipse.org/emf/2002/Ecore" as ecore
 
 generate oneSharpExpressive "http://www.ceronsantiago.org/OneSharpExpressive"
 
@@ -12,41 +14,50 @@ Program:
 // TERMINAL FRAGMENTS
 //-------------------------------
 terminal fragment LETTER: //Latin alphabet
-	'A'..'Z'|'a'..'z';
-terminal fragment DIGIT: //A digit
-	'0'..'9';
-
+	'A'..'Z'|'a'..'z'|'_';
+/*terminal fragment RESERVED: //Reserved strings
+	'write'|'switch'|'rswitch'|'goto'|'call'|'case'|'begin'|'end'|'int'|'string';*/
+terminal fragment DIGIT:
+	'0'..'9'
+;
 //-------------------------------
 // TERMINAL RULES
 //-------------------------------
-terminal NUMBER: //An Integer number
-	DIGIT+;
 terminal OS:
 	('1'|'#')+
 ;
-terminal ID: //A valid ID for a function, label, parameter, etc. 
-	LETTER+ (LETTER|DIGIT|OS)+
+
+terminal INT:
+	('0'..'9')+
 ;
-terminal WS: //Whitespaces;
- (' '|'\t'|'\r'|'\n')+;
- 
+terminal ID: //A valid ID for a function, label, parameter, etc. 
+	LETTER+ (LETTER|DIGIT|OS)*
+;
+terminal WS			: (' '|'\t'|'\r'|'\n')+;
+
+//----------------------
+//Variables
+//----------------------
+VAR_INT:
+	INT|ID
+;
 //-------------------------------
 // PRIMITIVE FUNCTIONS
 //-------------------------------
 Write:
-	{Write} 'write' word=OS register=NUMBER
+	{Write} 'write' word=OS register=VAR_INT
 ;
 NormalCase:
-	{NormalCase} 'case' register=NUMBER '{' caseOne+=Command* '}{' caseSharp+=Command* '}{' caseEmpty+=Command* '}'
+	{NormalCase} 'switch' register=VAR_INT 'case' caseOne+=Command* 'case' caseSharp+=Command* 'case' caseEmpty+=Command* 'end'
 ;
 LoopCase:
-	{LoopCase} 'rcase' register=NUMBER '{' caseOne+=Command* '}{' caseSharp+=Command* '}{' caseEmpty+=Command* '}'
+	{LoopCase} 'rswitch' register=VAR_INT 'case' caseOne+=Command* 'case' caseSharp+=Command* 'case' caseEmpty+=Command* 'end'
 ;
 Goto:
 	{Goto} 'goto' label=ID
 ;
 Call:
-	{Call} 'call' function=ID '(' parameters+=(NUMBER|OS) (',' parameters+=(NUMBER|OS))* ')'
+	{Call} 'call' function=ID '(' (INT|OS|ID) (',' (INT|OS|ID))* ')'
 ;
 //--------------------------------
 // Commands
@@ -59,9 +70,9 @@ Command:
 // Functions
 //--------------------------------
 FunctionHeader:
-	funcName=ID '(' (('int'|'string') ID) ? (',' (('int'|'string') ID))* ')' 
+	funcName=ID '(' (('int'|'string') ID)? (',' (('int'|'string') ID))* ')' 
 ;
 FunctionDeclaration:
-	funcHeader=FunctionHeader '{' commands+=Command+ '}'
+	funcHeader=FunctionHeader 'begin' commands+=Command+ 'end'
 ;
 

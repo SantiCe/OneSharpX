@@ -6,6 +6,25 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-SymbolicName: org.ceronsantiago.onesharpx; singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.xtext;visibility:=reexport,
- org.eclipse.equinox.common;bundle-version="3.5.0"
+ org.eclipse.equinox.common;bundle-version="3.5.0",
+ org.eclipse.xtext.util,
+ org.eclipse.emf.ecore,
+ org.eclipse.emf.common,
+ org.eclipse.xtext.xbase.lib,
+ org.antlr.runtime,
+ org.eclipse.xtext.common.types,
+ org.objectweb.asm;bundle-version="[5.0.1,6.0.0)";resolution:=optional
 Import-Package: org.apache.log4j
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: org.ceronsantiago,
+ org.ceronsantiago.services,
+ org.ceronsantiago.oneSharpExpressive,
+ org.ceronsantiago.oneSharpExpressive.impl,
+ org.ceronsantiago.oneSharpExpressive.util,
+ org.ceronsantiago.serializer,
+ org.ceronsantiago.parser.antlr,
+ org.ceronsantiago.parser.antlr.internal,
+ org.ceronsantiago.validation,
+ org.ceronsantiago.scoping,
+ org.ceronsantiago.generator,
+ org.ceronsantiago.formatting
