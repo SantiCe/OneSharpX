@@ -1,0 +1,14 @@
+package ceronsantiago.onesharpx.lib.gui;
+
+import javax.swing.JPanel;
+
+public class RegisterContainer extends JPanel {
+
+	/**
+	 * Create the panel.
+	 */
+	public RegisterContainer() {
+
+	}
+
+}

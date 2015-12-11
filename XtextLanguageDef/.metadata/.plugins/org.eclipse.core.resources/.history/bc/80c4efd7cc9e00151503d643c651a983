@@ -1,0 +1,13 @@
+package ceronsantiago.onesharpx.lib;
+
+import java.util.ArrayList;
+import java.util.Deque;
+import java.util.HashMap;
+
+public class Program {
+	
+	private ArrayList<String> commandList;
+	
+	private HashMap<Integer,Deque<Boolean>> registers;
+
+}

@@ -3,7 +3,7 @@
 //***********************
 LETTER ::= ('a'..'z')|('A'..'Z')
 DIGIT  ::= ('0'..'9')
-NUMBER ::= DIGIT+
+NUMBER ::= ('1'..'9') DIGIT*
 OS     ::= (1|#)+
 ID     ::= (LETTER|DIGIT|OS|'_')+
 WS     ::= // Whitespaces
@@ -12,25 +12,24 @@ WS     ::= // Whitespaces
 //***********************
 // Primitive Functions
 //***********************
-Add        ::= 'add' OS NUMBER
-NormalCase ::= 'case' NUMBER '{' Command* '}{' Command* '}{' Command* '}'
-LoopCase   ::= 'rcase' NUMBER '{' Command* '}{' Command* '}{' Command* '}'
-Goto       ::= 'goto' ID
-Call       ::= 'call' ID '(' (NUMBER|OS) (',' (NUMBER|OS))* ')'
+Write        ::= 'write' OS NUMBER
+NormalCase   ::= 'case' NUMBER 'case' Command* 'case' Command* 'case' Command* 'end'
+Goto         ::= 'goto' ID
+Call         ::= ID '(' ((NUMBER|OS|ID) (',' (NUMBER|OS|ID))*)? ')'
  
 //***********************
 // Commands
 //***********************
-Command ::= (ID ':')? (Add|NormalCase|LoopCase|Goto|Call)
+Command ::= (ID ':')? (Add|NormalCase|Goto|Call)
  
 //***********************
 // Functions
 //***********************
 FuncHeader ::= ID '(' (('int'|'string') ID) ? (',' (('int'|'string') ID))* ')'
-FuncDec    ::= FuncHeader '{' Command+ '}'
+FuncDec    ::= FuncHeader 'begin' Command* 'end'
  
 //***********************
 // 1# Program
 //***********************
 
-OSProgram ::= FuncDec+
+OSProgram ::= FuncDec* Command*

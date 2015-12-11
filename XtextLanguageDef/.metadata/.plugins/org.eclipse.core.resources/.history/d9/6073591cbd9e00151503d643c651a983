@@ -1,0 +1,63 @@
+package ceronsantiago.utils;
+
+import org.eclipse.emf.ecore.EObject;
+
+import ceronsantiago.oneSharpExpressive.CommandBlock;
+import ceronsantiago.oneSharpExpressive.FunctionDeclaration;
+
+public class Utils {
+	/**
+	 * Given a Command, finds its deepest containing command block.
+	 */
+	public static CommandBlock getCommandBlock(EObject com){
+		EObject container = com;
+		while(!(container instanceof CommandBlock)){
+			container = container.eContainer();
+		}
+		return (CommandBlock)container;
+	}
+	
+	/**
+	 * Given a member of a FunctionDeclaration, finds its declaring function, or null if this is not a member of a FunctionDeclaration.
+	 * @param com
+	 * @return
+	 */
+	public static FunctionDeclaration getFunctionDeclaration(EObject com){
+		EObject container = com;
+		while(!(container instanceof FunctionDeclaration)) container = container.eContainer();
+		return (FunctionDeclaration)container;
+	}
+	
+	public static String ones(int n){
+		StringBuilder sb = new StringBuilder();
+		for(int i = 0; i < n; i ++) sb.append("1");
+		return sb.toString();
+	}
+	
+	public static String sharps(int n){
+		StringBuilder sb = new StringBuilder();
+		for(int i = 0; i < n; i ++) sb.append("#");
+		return sb.toString();
+	}
+	
+	/**
+	 * Helper method, given a source and a destination line, returns the appropriate 1# instruction, either a 
+	 * FWD or a BWD instruction.
+	 * @param source
+	 * @param dest
+	 * @return The appropriate 1# instruction to go from line source to line dest.
+	 */
+	public static String oneSharpSourceToDes(int source, int dest){
+		String retString = ones(Math.abs(source-dest));
+		retString+=sharps(3);
+		if(dest < source) retString+="#";
+		return retString;
+	}
+	
+	public static String goodSpaces(String s, int total){
+		int nspaces = total-s.length();
+		StringBuilder sb = new StringBuilder();
+		for(int i = 0; i < nspaces; i ++) sb.append(" ");
+		return sb.toString();
+	}
+}

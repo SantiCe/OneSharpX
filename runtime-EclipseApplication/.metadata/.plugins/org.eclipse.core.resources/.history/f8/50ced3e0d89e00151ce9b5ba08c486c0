@@ -1,0 +1,28 @@
+Move(int source, int dest)begin
+	loop: switch source
+		case
+		case
+			write dest "1"
+			goto loop
+		case
+			write dest "#"
+			goto loop
+		end
+end
+
+Copy(int source, int dest, int temp)begin
+	loop: switch source
+		case
+		case
+			write dest "1"
+			write temp "1"
+			goto loop
+		case
+			write dest "#"
+			write temp "#"
+			goto loop
+		end
+	Move(temp,source)
+end
+
+Copy(1,2,3)

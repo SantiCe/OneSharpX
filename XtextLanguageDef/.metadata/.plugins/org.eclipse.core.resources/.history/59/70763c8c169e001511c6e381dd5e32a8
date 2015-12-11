@@ -1,0 +1,115 @@
+grammar ceronsantiago.OneSharpExpressive hidden (WS,ML_COMMENT,SL_COMMENT)
+
+import "http://www.eclipse.org/emf/2002/Ecore" as ecore
+
+generate oneSharpExpressive "http://www.ceronsantiago.org/OneSharpExpressive"
+
+//TODO: Factorize
+//-------------------------------
+// START SYMBOL - 1#X Program
+//-------------------------------
+Program:
+	functions+=FunctionDeclaration*
+	body=CommandBlock;
+//-------------------------------
+// TERMINAL FRAGMENTS
+//-------------------------------
+terminal fragment LETTER: //Latin alphabet
+	'A'..'Z'|'a'..'z'|'_';
+terminal fragment DIGIT:
+	'0'..'9'
+;
+//-------------------------------
+// TERMINAL RULES
+//-------------------------------
+terminal INT returns ecore::EInt:
+	DIGIT+
+;
+terminal ID: //A valid ID for a function, label, parameter, etc. 
+	LETTER+ (LETTER|DIGIT|'#')*
+;
+terminal OS:
+	'\"' ('1'|'#')+ '\"'
+;
+terminal WS: 
+	(' '|'\t'|'\r'|'\n')+
+;
+
+terminal ML_COMMENT	: '/*' -> '*/';
+terminal SL_COMMENT : ('//'|';') !('\n'|'\r')* ('\r'? '\n')?;
+
+//-------------------------------
+//Variables
+//-------------------------------
+IdOrInt:
+	{IdOrInt}((param=[IntParamDec])|value=INT)
+;
+
+IdOrString:
+	{IdOrString}((param=[StringParamDec])|value=OS)	
+;
+IdOrStringOrInt:
+	{IdOrStringOrInt}((intVal=INT|stringVal=OS|param=[ParamDec]))
+;
+//-------------------------------
+// PRIMITIVE FUNCTIONS
+//-------------------------------
+Write:
+	name='write' register=IdOrInt word=IdOrString 
+;
+NormalCase:
+	name='switch' register=IdOrInt 'case' caseOne=CommandBlock 'case' caseSharp=CommandBlock 'case' caseEmpty=CommandBlock 'end'
+;
+LoopCase:
+	name='rswitch' register=IdOrInt 'case' caseOne=CommandBlock 'case' caseSharp=CommandBlock 'end'
+;
+Goto:
+	name='goto' label=[Label]
+;
+
+Call:
+	function=[FunctionHeader] '(' (params+=IdOrStringOrInt (',' params+=IdOrStringOrInt)*)? ')'
+;
+Label:
+	name=ID ':'
+;
+//--------------------------------
+// Commands
+//--------------------------------
+Command:
+	{Command} (label=Label)? command=(Write|NormalCase|LoopCase|Goto|Call) 
+;
+
+RawCommand:
+	(Write|NormalCase|LoopCase|Goto|Call)
+;
+
+//--------------------------------
+// Functions
+//--------------------------------
+IntParamDec:	
+	'int' name=ID
+;
+StringParamDec:
+	'string' name=ID
+;
+ParamDec:
+	 IntParamDec|StringParamDec
+;
+FunctionHeader:
+	name=ID '(' (params+=ParamDec (',' params+=ParamDec)*)? ')' 
+;
+FunctionDeclaration:
+	FunctionHeader 'begin' body=CommandBlock 'end'
+;
+//--------------------------------
+// Scoping containers
+//--------------------------------
+
+/*
+ * A list of commands, that works as a scope for labels.
+ */
+CommandBlock:
+	{CommandBlock} (commands+=Command)*
+;
+

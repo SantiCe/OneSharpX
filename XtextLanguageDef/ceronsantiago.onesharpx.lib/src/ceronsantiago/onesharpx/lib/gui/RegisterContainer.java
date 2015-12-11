@@ -1,0 +1,33 @@
+package ceronsantiago.onesharpx.lib.gui;
+
+import java.util.SortedMap;
+import java.util.TreeMap;
+
+import javax.swing.BoxLayout;
+import javax.swing.JPanel;
+
+public class RegisterContainer extends JPanel {
+
+	public SortedMap<Integer,RegisterComponent> registers = new TreeMap<>();
+	/**
+	 * Create the panel.
+	 */
+	public RegisterContainer() {
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		registers = new TreeMap<>();
+		for(int i = 1; i <= 5; i ++) addRegister(i);
+		update();
+	}
+	
+	public void addRegister(int n){
+		if(registers.get(n) == null) registers.put(n,new RegisterComponent(n));
+	}
+	
+	public void update(){
+		for(RegisterComponent reg:registers.values()) remove(reg);
+		for(int k:registers.keySet())add(registers.get(k));
+		validate();
+		repaint();
+	}
+
+}

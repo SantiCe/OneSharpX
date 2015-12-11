@@ -1,0 +1,20 @@
+Write(int x, string y)begin
+	write x y
+end
+
+Read(string y)begin
+	laap: write 1 y
+	loop: switch 1
+		case 
+			Write(2,y)
+			goto loop
+		case
+			Write(2,y)
+			Write(3,"#1")
+			goto loop
+		case end
+end
+
+jaja: Read("1##1#")
+goto jaja
+Write(1,"1") 

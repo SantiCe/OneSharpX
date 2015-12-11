@@ -1,0 +1,30 @@
+package ceronsantiago.onesharpx.lib.gui;
+
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+
+public class RegisterComponent extends JPanel {
+	private JTextField textField;
+
+	/**
+	 * Create the panel.
+	 */
+	public RegisterComponent() {
+		setLayout(new BorderLayout(0, 0));
+		
+		JLabel lblNewLabel = new JLabel("New label");
+		add(lblNewLabel, BorderLayout.WEST);
+		
+		textField = new JTextField();
+		add(textField, BorderLayout.CENTER);
+		textField.setColumns(10);
+		
+		JButton btnNewButton = new JButton("New button");
+		add(btnNewButton, BorderLayout.EAST);
+
+	}
+
+}

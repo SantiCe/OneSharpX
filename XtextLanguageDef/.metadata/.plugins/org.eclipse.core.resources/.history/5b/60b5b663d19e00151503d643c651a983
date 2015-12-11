@@ -1,0 +1,9 @@
+package ceronsantiago.onesharpx.lib;
+
+import java.util.Deque;
+import java.util.HashMap;
+import java.util.Observer;
+
+public class ObservableRegisterContainer extends HashMap<Integer,Deque<Boolean>> implements Observer {
+
+}

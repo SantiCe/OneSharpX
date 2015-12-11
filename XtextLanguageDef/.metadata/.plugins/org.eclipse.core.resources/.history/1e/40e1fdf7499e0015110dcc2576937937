@@ -1,0 +1,31 @@
+package ceronsantiago.onesharpx;
+
+import org.eclipse.emf.ecore.EObject;
+
+import ceronsantiago.oneSharpExpressive.Command;
+import ceronsantiago.oneSharpExpressive.CommandBlock;
+
+public class Utils {
+	/**
+	 * Given a Command, finds its deepest containing command block.
+	 */
+	public static CommandBlock getCommandBlock(EObject com){
+		EObject container = com;
+		while(!(container instanceof CommandBlock)){
+			container = container.eContainer();
+		}
+		return (CommandBlock)container;
+	}
+	
+	public static String ones(int n){
+		StringBuilder sb = new StringBuilder();
+		for(int i = 0; i < n; i ++) sb.append("1");
+		return sb.toString();
+	}
+	
+	public static String sharps(int n){
+		StringBuilder sb = new StringBuilder();
+		for(int i = 0; i < n; i ++) sb.append("#");
+		return sb.toString();
+	}
+}

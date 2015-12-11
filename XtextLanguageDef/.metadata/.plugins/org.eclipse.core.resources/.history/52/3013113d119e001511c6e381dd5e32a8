@@ -1,0 +1,28 @@
+package ceronsantiago.onesharpx;
+
+import java.util.HashMap;
+
+import ceronsantiago.oneSharpExpressive.CommandBlock;
+
+public class LabelContainer {
+	
+	/*
+	 * Associated command block
+	 */
+	public CommandBlock commandBlock;
+	
+	/*
+	 * The starting line in the global program of the command block.
+	 */
+	public int startingLine;
+	
+	/*
+	 * Map to commands. This means that if map.get(id) = n, then commandBlock.commands[n[.label = id
+	 */
+	public HashMap<String,Integer> map = new HashMap<>();
+	
+	public LabelContainer(CommandBlock block, int startingLine){
+		this.startingLine = startingLine;
+		commandBlock = block;
+	}
+}

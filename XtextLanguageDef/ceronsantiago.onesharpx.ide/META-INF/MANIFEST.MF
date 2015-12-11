@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ceronsantiago.onesharpx.ide
+Bundle-Vendor: My Company
+Bundle-Version: 1.0.0.qualifier
+Bundle-SymbolicName: ceronsantiago.onesharpx.ide; singleton:=true
+Bundle-ActivationPolicy: lazy
+Require-Bundle: ceronsantiago.onesharpx,
+ org.eclipse.xtext.ide,
+ org.eclipse.xtext.xbase.ide
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: ceronsantiago.ide.contentassist.antlr.internal,
+ ceronsantiago.ide.contentassist.antlr
+

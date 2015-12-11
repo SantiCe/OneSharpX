@@ -1,0 +1,19 @@
+package ceronsantiago.onesharpx;
+
+import org.eclipse.emf.ecore.EObject;
+
+import ceronsantiago.oneSharpExpressive.Command;
+import ceronsantiago.oneSharpExpressive.CommandBlock;
+
+public class ModelUtils {
+	/**
+	 * Given a Command, finds its deepest containing command block.
+	 */
+	public static CommandBlock getCommandBlock(Command com){
+		EObject container = com;
+		while(!(container instanceof CommandBlock)){
+			container = container.eContainer();
+		}
+		return (container as CommandBlock);
+	}
+}

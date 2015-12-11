@@ -1,0 +1,14 @@
+package ceronsantiago.utils;
+
+import java.util.HashMap;
+
+import ceronsantiago.oneSharpExpressive.ParamDec;
+
+public class ParameterContext {
+	public HashMap<String,String> valMap = new HashMap<>();
+	
+	//TODO: Should probably change this name.
+	public String resolve(ParamDec param){
+		return valMap.get(param.getName());
+	}
+}

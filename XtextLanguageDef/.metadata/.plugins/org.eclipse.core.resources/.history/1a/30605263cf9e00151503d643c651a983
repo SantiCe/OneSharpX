@@ -1,0 +1,43 @@
+package ceronsantiago.onesharpx.lib;
+
+import java.util.ArrayList;
+import java.util.Deque;
+import java.util.HashMap;
+import java.util.LinkedList;
+
+public class Program {
+	public static final int NOT_STARTED = 0, RUNNING = 1, HALTED = 2, STOPPED_IMPR = 3;
+	
+	public int state = NOT_STARTED;
+	
+	public ArrayList<String> commandList;
+	
+	public HashMap<Integer,Deque<Boolean>> registers;
+	
+	private int currentPos = 0;
+	
+	public Program(ArrayList<String> pCommand){
+		commandList = pCommand;
+	}
+	
+	public void nextInstruction(){
+		if(currentPos == commandList.size() ) state = HALTED;
+		else if(currentPos > commandList.size()) state = STOPPED_IMPR;
+		else if(currentPos < 0) state = STOPPED_IMPR;
+		else{
+			state = RUNNING;
+			String inst = commandList.get(currentPos);
+			String[] sp = inst.split(" "); //TODO: I could just save the array to start with.
+			switch(sp[0]){
+			case "W":
+				addToRegister(Integer.parseInt(sp[1]),sp[2].charAt(0));
+			}
+		}
+	}
+	
+	public void addToRegister(int register, char c){
+		if(registers.get(register) == null) registers.put(register, new LinkedList<Boolean>());
+		registers.get(register).addLast(c == '1');
+	}
+
+}

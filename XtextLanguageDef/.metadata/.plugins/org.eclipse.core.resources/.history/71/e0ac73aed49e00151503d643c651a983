@@ -1,0 +1,109 @@
+grammar ceronsantiago.OneSharpExpressive hidden (WS,ML_COMMENT,SL_COMMENT)
+
+import "http://www.eclipse.org/emf/2002/Ecore" as ecore
+
+generate oneSharpExpressive "http://www.ceronsantiago.org/OneSharpExpressive"
+
+//TODO: Factorize
+//-------------------------------
+// START SYMBOL - 1#X Program
+//-------------------------------
+Program:
+	functions+=FunctionDeclaration*
+	body=CommandBlock;
+//-------------------------------
+// TERMINAL FRAGMENTS
+//-------------------------------
+terminal fragment LETTER: //Latin alphabet
+	'A'..'Z'|'a'..'z'|'_';
+terminal fragment DIGIT:
+	'0'..'9'
+;
+//-------------------------------
+// TERMINAL RULES
+//-------------------------------
+terminal INT returns ecore::EInt:
+	('1'..'9') DIGIT*
+;
+terminal ID: //A valid ID for a function, label, parameter, etc. 
+	LETTER+ (LETTER|DIGIT|'#')*
+;
+terminal OS:
+	'\"' ('1'|'#')+ '\"'
+;
+terminal WS: 
+	(' '|'\t'|'\r'|'\n')+
+;
+
+terminal ML_COMMENT	: '/*' -> '*/';
+terminal SL_COMMENT : ('//'|';') !('\n'|'\r')* ('\r'? '\n')?;
+
+//-------------------------------
+//Variables
+//-------------------------------
+RegisterParam:
+	((param=[IntParamDec])|value=INT)
+;
+
+WordParam:
+	((param=[StringParamDec])|value=OS)	
+;
+CallParam:
+	((intVal=INT|stringVal=OS|param=[ParamDec]))
+;
+//-------------------------------
+// PRIMITIVE FUNCTIONS
+//-------------------------------
+Write:
+	'write' register=RegisterParam word=WordParam 
+;
+NormalCase:
+	'switch' register=RegisterParam 'case' caseEmpty=CommandBlock 'case' caseSharp=CommandBlock 'case' caseOne=CommandBlock 'end'
+;
+
+/*LoopCase:
+	'rswitch' register=IdOrInt 'case' caseOne=CommandBlock 'case' caseSharp=CommandBlock 'end'
+;*/ //TODO: This seems like unnecessary syntactic sugar.
+Goto:
+	'goto' label=[Command]
+;
+
+Call:
+	function=[FunctionDeclaration] '(' (params+=CallParam (',' params+=CallParam)*)? ')'
+;
+//--------------------------------
+// Commands
+//--------------------------------
+Command:
+	(name=ID ':')? command=UnlabeledCommand
+;
+UnlabeledCommand:
+	(Write|NormalCase/*|LoopCase*/|Goto|Call) //TODO: Removed LoopCase.
+;
+
+//--------------------------------
+// Functions
+//--------------------------------
+IntParamDec:	
+	'int' name=ID
+;
+StringParamDec:
+	'string' name=ID
+;		
+ParamDec:
+	 IntParamDec|StringParamDec
+;
+FunctionDeclaration:
+	name=ID '(' (params+=ParamDec (',' params+=ParamDec)*)? ')' 'begin' body=CommandBlock 'end'
+;
+//--------------------------------
+// Scoping containers
+//--------------------------------
+
+/*
+ * A list of commands, that works as a scope for labels.
+ */
+CommandBlock:
+	{CommandBlock} (commands+=Command)*
+;
+

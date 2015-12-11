@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename package &apos;gui&apos; to &apos;ceronsantiago.onesharpx.lib.gui&apos;&#x0D;&#x0A;- Original project: &apos;ceronsantiago.onesharpx.lib&apos;&#x0D;&#x0A;- Original element: &apos;ceronsantiago.onesharpx.lib/src/gui&apos;&#x0D;&#x0A;- Renamed element: &apos;ceronsantiago.onesharpx.lib/src/ceronsantiago.onesharpx.lib.gui&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename package &apos;gui&apos;" flags="589830" hierarchical="false" id="org.eclipse.jdt.ui.rename.package" input="/src&lt;gui" name="ceronsantiago.onesharpx.lib.gui" qualified="false" references="true" stamp="1449710307474" textual="false" version="1.0"/>
+</session>

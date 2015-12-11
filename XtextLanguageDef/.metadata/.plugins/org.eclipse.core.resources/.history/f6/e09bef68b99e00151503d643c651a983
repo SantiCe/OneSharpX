@@ -1,0 +1,52 @@
+package ceronsantiago.utils;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import ceronsantiago.oneSharpExpressive.CommandBlock;
+
+public class LabelContainer {
+	
+	/*
+	 * Associated command block
+	 */
+	public CommandBlock commandBlock;
+	
+	/*
+	 * The starting line in the global program of the command block.
+	 */
+	public int startingLine;
+	
+	/*
+	 * Map to commands in the global program.
+	 */
+	public HashMap<String,Integer> labelMap = new HashMap<>();
+	
+	/*
+	 * Children containers, in the same way ContextBlocks belong to other context blocks to form a tree.
+	 */
+	public ArrayList<LabelContainer> children = new ArrayList<>();
+	
+	/*
+	 * List of positions in the global program where goto calls need to be resolved.
+	 */
+	public ArrayList<Integer> gotosToSolve = new ArrayList<>();
+	
+	/*
+	 * 
+	 */
+	public LabelContainer parent;
+	
+	public LabelContainer(CommandBlock block, int startingLine, LabelContainer parent){
+		this.parent = parent;
+		this.startingLine = startingLine;
+		commandBlock = block;
+	}
+	
+	public int resolve(String label){
+		Integer n = labelMap.get(label);
+		if(n!=null) return n;
+		else if(parent != null) return parent.resolve(label);
+		else return -1;
+	}
+}

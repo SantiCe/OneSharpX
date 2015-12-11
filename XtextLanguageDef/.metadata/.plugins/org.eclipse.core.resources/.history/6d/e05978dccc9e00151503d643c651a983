@@ -1,0 +1,24 @@
+package ceronsantiago.onesharpx.lib;
+
+import java.util.ArrayList;
+import java.util.Deque;
+import java.util.HashMap;
+
+public class Program {
+	private static int NOT_STARTED = 0, RUNNING = 1, HALTED = 2, STOPPED_IMPR = 3;
+	
+	private ArrayList<String> commandList;
+	
+	private HashMap<Integer,Deque<Boolean>> registers;
+	
+	private int currentPos = 0;
+	
+	public Program(ArrayList<String> pCommand){
+		commandList = pCommand;
+	}
+	
+	public boolean nextInstruction(){
+		if(currentPos >= )
+	}
+
+}

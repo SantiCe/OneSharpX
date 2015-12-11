@@ -1,0 +1,21 @@
+package ceronsantiago.onesharpx.lib.gui;
+
+import java.util.HashMap;
+import java.util.SortedMap;
+
+import javax.swing.JPanel;
+
+public class RegisterContainer extends JPanel {
+
+	public SortedMap<Integer,RegisterComponent> registers = new SortedMap<>();
+	/**
+	 * Create the panel.
+	 */
+	public RegisterContainer() {
+		
+	}
+	public void addRegister(int n){
+		
+	}
+
+}

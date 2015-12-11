@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="ceronsantiago.oneSharpExpressive.Command"/>
+<fullyQualifiedTypeName name="ceronsantiago.oneSharpExpressive.FunctionDeclaration"/>
+<fullyQualifiedTypeName name="ceronsantiago.oneSharpExpressive.IntParamDec"/>
+<fullyQualifiedTypeName name="ceronsantiago.oneSharpExpressive.RegisterParam"/>
+<fullyQualifiedTypeName name="ceronsantiago.oneSharpExpressive.WordParam"/>
+<fullyQualifiedTypeName name="java.lang.IllegalArgumentException"/>
+<fullyQualifiedTypeName name="java.util.Observable"/>
+<fullyQualifiedTypeName name="java.util.Observer"/>
+<fullyQualifiedTypeName name="ceronsantiago.onesharpx.lib.ObservableRegisterContainer"/>
+<fullyQualifiedTypeName name="ceronsantiago.onesharpx.lib.gui.RegisterComponent"/>
+<fullyQualifiedTypeName name="java.util.SortedMap"/>
+<fullyQualifiedTypeName name="java.util.TreeMap"/>
+<fullyQualifiedTypeName name="java.awt.Dimension"/>
+</qualifiedTypeNameHistroy>

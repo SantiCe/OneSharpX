@@ -1,0 +1,37 @@
+package ceronsantiago.onesharpx;
+
+import java.util.HashMap;
+
+import ceronsantiago.oneSharpExpressive.CommandBlock;
+import ceronsantiago.oneSharpExpressive.FunctionDeclaration;
+
+public class VarnameContainer {
+	public static final int INT_TYPE_ID = 0, STRING_TYPE_ID = 1;
+	/*
+	 * Associated function
+	 */
+	public FunctionDeclaration function;
+		
+	/*
+	 * Map to commands. This means that if map.get(id) = n, then commandBlock.commands[n[.label = id
+	 */
+	public HashMap<String,Integer> labelMap = new HashMap<>();
+	
+	/*
+	 * 
+	 */
+	public LabelContainer parent;
+	
+	public LabelContainer(CommandBlock block, int startingLine, LabelContainer parent){
+		this.parent = parent;
+		this.startingLine = startingLine;
+		commandBlock = block;
+	}
+	
+	public int resolve(String label){
+		Integer n = labelMap.get(label);
+		if(n!=null) return n;
+		else if(parent != null) return parent.resolve(label);
+		else return -1;
+	}
+}

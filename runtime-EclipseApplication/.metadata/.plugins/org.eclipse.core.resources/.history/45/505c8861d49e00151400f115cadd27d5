@@ -1,0 +1,13 @@
+Move(int source, int dest)begin
+	loop: switch source
+		case
+			write dest "1"
+			goto loop
+		case
+			write dest "#"
+			goto loop
+		case
+		end
+end
+
+Move(1,2)
